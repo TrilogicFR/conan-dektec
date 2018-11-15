@@ -1,0 +1,10 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+build:linux:
+  tags:
+        - linux
+  image: stretch
+  stage: build
+  script:
+        - conan create . gitlab/stable
