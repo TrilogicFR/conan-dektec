@@ -23,7 +23,7 @@ def download_winsdk (settings):
     if settings.compiler.version == 15:
         download_winsdk_vc15 (settings.arch_build, settings.compiler.runtime)
     else:
-        print ("Visual Studio " + settings.compiler.version + " is not supported")
+      raise ConanException ("Visual Studio " + settings.compiler.version + " is not supported")
 
 #
 # Dektec Conan package.
@@ -36,7 +36,7 @@ class DektecDtapiConan (ConanFile):
     url = "http://www.dektec.com"
     author = "Dektec Digital Video B.V."
     license = "Dektec"
-    exports = "DtSdiFileFmt.h"
+    exports = "DtSdiFileFmt.h", "LICENSE"
     description = "C++ API for development of custom applications with DekTec devices."
 
     def source (self):
@@ -54,6 +54,8 @@ class DektecDtapiConan (ConanFile):
         elif self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             download_winsdk (self.settings)
             tools.unzip ('winsdk.zip')
+        else:
+          raise ConanException (self.settings.os + "/" + self.settings.compiler + " is not supported")
 
     def package (self):
         if self.settings.os == "Windows":
@@ -63,6 +65,7 @@ class DektecDtapiConan (ConanFile):
             self.copy ("*", dst="include", src="LinuxSDK/DTAPI/Include")
             self.copy ("DtSdiFileFmt.h", dst="include")
             self.copy ("libdtapi.a", dst="lib")
+            self.copy ("LICENSE", dst="")
 
     def package_info (self):
         self.cpp_info.libs = tools.collect_libs (self)
