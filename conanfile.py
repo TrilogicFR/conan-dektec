@@ -1,15 +1,6 @@
 from conans import ConanFile, tools
 import os
 
-def get_version():
-    if 'CI_COMMIT_REF_NAME' in os.environ:
-        return os.environ.get ('CI_COMMIT_REF_NAME')
-    git = tools.Git ()
-    try:
-        return "%s" % (git.get_branch ())
-    except:
-        return None
-
 #
 # Visual Studio helpers.
 #
@@ -39,7 +30,7 @@ def download_winsdk (settings):
 #
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
-    version = get_version ()
+    version = "1807.0"
     settings = "os", "arch_build", "compiler", "build_type"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"

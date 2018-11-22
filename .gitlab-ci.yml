@@ -9,7 +9,7 @@ build:linux:
   script:
         - conan create . trilogic/stable
         - conan user -p trilogic trilogic -r trilogic
-        - conan upload "dektec-dtapi/$CI_COMMIT_REF_NAME@trilogic/stable" --all -r trilogic
+        - conan upload "dektec-dtapi/1807@trilogic/stable" --all -r trilogic
 
 build:windows:
   stage: build
@@ -18,4 +18,4 @@ build:windows:
   script:
         - conan create . trilogic/stable
         - conan user -p trilogic trilogic -r trilogic
-        - conan upload "dektec-dtapi/%CI_COMMIT_REF_NAME%@trilogic/stable" --all -r trilogic
+        - conan upload "dektec-dtapi/1807@trilogic/stable" --all -r trilogic
