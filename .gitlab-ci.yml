@@ -2,9 +2,20 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 build:linux:
-  tags:
-        - linux
   image: stretch
   stage: build
+  tags:
+        - linux
   script:
-        - conan create . gitlab/stable
+        - conan create . trilogic/stable
+        - conan user -p trilogic trilogic -r trilogic
+        - conan upload "dektec-dtapi/$CI_COMMIT_REF_NAME@trilogic/stable" --all -r trilogic
+
+build:windows:
+  stage: build
+  tags:
+        - windows
+  script:
+        - conan create . trilogic/stable
+        - conan user -p trilogic trilogic -r trilogic
+        - conan upload "dektec-dtapi/%CI_COMMIT_REF_NAME%@trilogic/stable" --all -r trilogic
