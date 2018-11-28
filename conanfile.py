@@ -69,6 +69,9 @@ class DektecDtapiConan (ConanFile):
 
     def package_info (self):
         self.cpp_info.libs = tools.collect_libs (self)
-        if self.settings.os == "Linux":
-            self.cpp_info.libs.append ('pthread')
-            self.cpp_info.libs.append ('dl')
+        if self.settings.os == "Windows":
+          self.cpp_info.debug.libs = ["%s_d" % (self.name)]
+          self.cpp_info.release.libs = ["%s" % (self.name)]
+        else:
+          self.cpp_info.libs.append ('pthread')
+          self.cpp_info.libs.append ('dl')
