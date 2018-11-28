@@ -31,7 +31,7 @@ def download_winsdk (settings):
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
     version = "1807.0"
-    settings = "os", "arch_build", "compiler", "build_type"
+    settings = "os", "arch_build", "compiler"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"
     author = "Dektec Digital Video B.V."
