@@ -68,7 +68,6 @@ class DektecDtapiConan (ConanFile):
             self.copy ("LICENSE", dst="")
 
     def package_info (self):
-        self.cpp_info.libs = tools.collect_libs (self)
         if self.settings.os == "Windows":
            if self.settings.arch_build == 'x86_64':
             if self.settings.compiler.runtime == 'MD':
