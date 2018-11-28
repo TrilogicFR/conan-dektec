@@ -76,13 +76,14 @@ class DektecDtapiConan (ConanFile):
             else:
               self.cpp_info.debug.libs = ["DTAPI64MTd"]
               self.cpp_info.release.libs = ["DTAPI64MT"]
-           else:
-            if self.settings.compiler.runtime == 'MD':
-              self.cpp_info.debug.libs = ["DTAPIMDd"]
-              self.cpp_info.release.libs = ["DTAPIMD"]
             else:
-              self.cpp_info.debug.libs = ["DTAPIMTd"]
-              self.cpp_info.release.libs = ["DTAPIMT"]
+              if self.settings.compiler.runtime == 'MD':
+                self.cpp_info.debug.libs = ["DTAPIMDd"]
+                self.cpp_info.release.libs = ["DTAPIMD"]
+              else:
+                self.cpp_info.debug.libs = ["DTAPIMTd"]
+                self.cpp_info.release.libs = ["DTAPIMT"]
         else:
+          self.cpp_info.libs = tools.collect_libs (self)
           self.cpp_info.libs.append ('pthread')
           self.cpp_info.libs.append ('dl')
