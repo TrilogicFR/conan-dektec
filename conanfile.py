@@ -70,8 +70,20 @@ class DektecDtapiConan (ConanFile):
     def package_info (self):
         self.cpp_info.libs = tools.collect_libs (self)
         if self.settings.os == "Windows":
-          self.cpp_info.debug.libs = ["%s_d" % (self.name)]
-          self.cpp_info.release.libs = ["%s" % (self.name)]
+           if arch == 'x86_64':
+            if runtime == 'MD':
+              self.cpp_info.debug.libs = ["DTAPI64MDd"]
+              self.cpp_info.release.libs = ["DTAPI64MD"]
+            else:
+              self.cpp_info.debug.libs = ["DTAPI64MTd"]
+              self.cpp_info.release.libs = ["DTAPI64MT"]
+           else:
+            if runtime == 'MD':
+              self.cpp_info.debug.libs = ["DTAPIMDd"]
+              self.cpp_info.release.libs = ["DTAPIMD"]
+            else:
+              self.cpp_info.debug.libs = ["DTAPIMTd"]
+              self.cpp_info.release.libs = ["DTAPIMT"]
         else:
           self.cpp_info.libs.append ('pthread')
           self.cpp_info.libs.append ('dl')
