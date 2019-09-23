@@ -2,7 +2,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 build:linux:
-  image: stretch
+  image: trilogic/linux:9.2
   stage: build
   tags:
         - linux
