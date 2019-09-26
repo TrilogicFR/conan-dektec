@@ -52,7 +52,7 @@ class DektecDtapiConan (ConanFile):
             if self.settings.arch_build =='x86':
                 self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC4.4/DTAPI.o')
         elif self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
-            if self.settings.compiler.runtime == 'MD':
+            if "MD" in self.settings.compiler.runtime:
                 download_winsdk_md (self)
             else:
                 download_winsdk_mt (self)
@@ -73,14 +73,14 @@ class DektecDtapiConan (ConanFile):
     def package_info (self):
         if self.settings.os == "Windows":
             if self.settings.arch_build == 'x86_64':
-                if self.settings.compiler.runtime == 'MD':
+                if "MD" in self.settings.compiler.runtime:
                     self.cpp_info.debug.libs = ["DTAPI64MDd"]
                     self.cpp_info.release.libs = ["DTAPI64MD"]
                 else:
                     self.cpp_info.debug.libs = ["DTAPI64MTd"]
                     self.cpp_info.release.libs = ["DTAPI64MT"]
             else:
-                if self.settings.compiler.runtime == 'MD':
+                if "MD" in self.settings.compiler.runtime:
                     self.cpp_info.debug.libs = ["DTAPIMDd"]
                     self.cpp_info.release.libs = ["DTAPIMD"]
                 else:
