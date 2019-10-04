@@ -49,7 +49,7 @@ class DektecDtapiConan (ConanFile):
     def source (self):
         if self.settings.os == "Linux":
             package = 'LinuxSDK_v2018.07.0.tar.gz'
-            tools.get ('https://files.trilogic.fr/public/dektec-linux/dl/' + package, package)
+            tools.get ('https://files.trilogic.fr/public/dektec-linux/dl/' + package)
 
     def build (self):
         if self.settings.os == "Linux":
