@@ -3,27 +3,34 @@ from conans.errors import ConanException
 import os
 
 #
-# /MD configuration.
+# Winsdk 64-bits.
 #
-def download_winsdk_md (self):
-    # For now, ONLY VC15 package is avail.
-    if self.settings.compiler.version != 15:
-        self.output.warn ('Visual Studio 15 redist will be needed !')
-
-    if self.settings.arch_build == 'x86_64':
-        tools.download ('https://files.trilogic.fr/public/vc15-x86-64-md/dl/winsdk_vc15_x86_64_md.zip', 'winsdk.zip')
+def download_x86_64_winsdk (self):
+    if 'Release' in self.settings.build_type:
+        if 'MD' in self.settings.compiler.runtime:
+            tools.get ('https://files.trilogic.fr/public/53e72d/dl/vc17_x86_64_md_release.zip')
+        else:
+            tools.get ('https://files.trilogic.fr/public/a76ae3/dl/vc17_x86_64_mt_release.zip')
     else:
-        tools.download ('https://files.trilogic.fr/public/vc15-x86-md/dl/winsdk_vc15_x86_md.zip', 'winsdk.zip')
+        if 'MD' in self.settings.compiler.runtime:
+            tools.get ('https://files.trilogic.fr/public/66f091/dl/vc17_x86_64_md_debug.zip')
+        else:
+            tools.get ('https://files.trilogic.fr/public/b75a56/dl/vc17_x86_64_mt_debug.zip')
 
-def download_winsdk_mt (self):
-    # For now, ONLY VC15 package is avail.
-    if self.settings.compiler.version != 15:
-        raise ConanException('VC15 is required, yours is VC%s' % self.settings.compiler.version)
-
-    if self.settings.arch_build == 'x86_64':
-        tools.download ('https://files.trilogic.fr/public/vc15-x86-64-mt/dl/winsdk_vc15_x86_64_mt.zip', 'winsdk.zip')
+#
+# Winsdk 32-bits.
+#
+def download_x86_winsdk (self):
+    if 'Release' in self.settings.build_type:
+        if 'MD' in self.settings.compiler.runtime:
+            tools.get ('https://files.trilogic.fr/public/458daf/dl/vc17_x86_md_release.zip')
+        else:
+            tools.get ('https://files.trilogic.fr/public/516ef7/dl/vc17_x86_mt_release.zip')
     else:
-        tools.download ('https://files.trilogic.fr/public/vc15-x86-mt/dl/winsdk_vc15_x86_mt.zip', 'winsdk.zip')
+        if 'MD' in self.settings.compiler.runtime:
+            tools.get ('https://files.trilogic.fr/public/e3e5ff/dl/vc17_x86_md_debug.zip')
+        else:
+            tools.get ('https://files.trilogic.fr/public/3b244e/dl/vc17_x86_mt_debug.zip')
 
 #
 # Dektec Conan package.
@@ -31,7 +38,7 @@ def download_winsdk_mt (self):
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
     version = "1807.0"
-    settings = "os", "arch_build", "compiler"
+    settings = "os", "arch_build", "compiler", "build_type"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"
     author = "Dektec Digital Video B.V."
@@ -42,8 +49,7 @@ class DektecDtapiConan (ConanFile):
     def source (self):
         if self.settings.os == "Linux":
             package = 'LinuxSDK_v2018.07.0.tar.gz'
-            tools.download ('https://files.trilogic.fr/public/dektec-linux/dl/' + package, package)
-            tools.unzip (package)
+            tools.get ('https://files.trilogic.fr/public/dektec-linux/dl/' + package, package)
 
     def build (self):
         if self.settings.os == "Linux":
@@ -52,11 +58,17 @@ class DektecDtapiConan (ConanFile):
             if self.settings.arch_build =='x86':
                 self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC4.4/DTAPI.o')
         elif self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
-            if "MD" in self.settings.compiler.runtime:
-                download_winsdk_md (self)
+            # Do some check againt static runtime to inform user.
+            if self.settings.compiler.version != 15:
+                if 'MT' in self.settings.compiler.runtime:
+                    raise ConanException('Visual Studio 17 (VC15) is required, yours is VC%s' % self.settings.compiler.version)
+                else:
+                    self.output.warn ('Visual Studio 17 (VC15) redist will be needed !')
+            # Download requested Winsdk.
+            if self.settings.arch_build == 'x86_64':
+                download_x86_64_winsdk (self)
             else:
-                download_winsdk_mt (self)
-            tools.unzip ('winsdk.zip')
+                download_x86_winsdk (self)
         else:
           raise ConanException ("Unsupported os/arch_build/compiler !")
 

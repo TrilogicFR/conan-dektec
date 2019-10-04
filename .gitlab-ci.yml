@@ -1,21 +1,42 @@
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
-build:linux:
+.build:
   image: trilogic/linux:9.2
   stage: build
+  script:
+        - conan create . trilogic/stable -s build_type=Debug --build missing
+        - conan create . trilogic/stable -s build_type=Release --build missing
+        - conan user -p trilogic trilogic -r trilogic
+
+build:linux:
+  extends: .build
   tags:
         - linux
-  script:
-        - conan create . trilogic/stable
-        - conan user -p trilogic trilogic -r trilogic
-        - conan upload "dektec-dtapi/1807.0@trilogic/stable" --all -r trilogic
+  except:
+        - tags
 
 build:windows:
-  stage: build
+  extends: .build
   tags:
         - windows
-  script:
-        - conan create . trilogic/stable
-        - conan user -p trilogic trilogic -r trilogic
-        - conan upload "dektec-dtapi/1807.0@trilogic/stable" --all -r trilogic
+  except:
+        - tags
+
+deploy:linux:
+  extends: .build
+  tags:
+        - linux
+  only:
+        - tags
+  after_script:
+        - conan upload "$CI_PROJECT_NAME/$CI_COMMIT_TAG@trilogic/stable" --all -r trilogic
+
+deploy:windows:
+  extends: .build
+  tags:
+        - windows
+  only:
+        - tags
+  after_script:
+        - conan upload "$env:CI_PROJECT_NAME/$env:CI_COMMIT_TAG@trilogic/stable" --all -r trilogic
