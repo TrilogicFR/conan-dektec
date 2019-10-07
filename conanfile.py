@@ -8,14 +8,14 @@ import os
 def download_x86_64_winsdk (self):
     if 'Release' in self.settings.build_type:
         if 'MD' in self.settings.compiler.runtime:
-            tools.get ('https://files.trilogic.fr/public/53e72d/dl/vc17_x86_64_md_release.zip')
+            tools.get ('https://files.trilogic.fr/public/483618/dl/vc17_x86_64_md_release.zip')
         else:
-            tools.get ('https://files.trilogic.fr/public/a76ae3/dl/vc17_x86_64_mt_release.zip')
+            tools.get ('https://files.trilogic.fr/public/b6adf7/dl/vc17_x86_64_mt_release.zip')
     else:
         if 'MD' in self.settings.compiler.runtime:
-            tools.get ('https://files.trilogic.fr/public/66f091/dl/vc17_x86_64_md_debug.zip')
+            tools.get ('https://files.trilogic.fr/public/bc00b0/dl/vc17_x86_64_md_debug.zip')
         else:
-            tools.get ('https://files.trilogic.fr/public/b75a56/dl/vc17_x86_64_mt_debug.zip')
+            tools.get ('https://files.trilogic.fr/public/f1d800/dl/vc17_x86_64_mt_debug.zip')
 
 #
 # Winsdk 32-bits.
@@ -23,21 +23,21 @@ def download_x86_64_winsdk (self):
 def download_x86_winsdk (self):
     if 'Release' in self.settings.build_type:
         if 'MD' in self.settings.compiler.runtime:
-            tools.get ('https://files.trilogic.fr/public/458daf/dl/vc17_x86_md_release.zip')
+            tools.get ('https://files.trilogic.fr/public/7b81c0/dl/vc17_x86_md_release.zip')
         else:
-            tools.get ('https://files.trilogic.fr/public/516ef7/dl/vc17_x86_mt_release.zip')
+            tools.get ('https://files.trilogic.fr/public/318f40/dl/vc17_x86_mt_release.zip')
     else:
         if 'MD' in self.settings.compiler.runtime:
-            tools.get ('https://files.trilogic.fr/public/e3e5ff/dl/vc17_x86_md_debug.zip')
+            tools.get ('https://files.trilogic.fr/public/ab7798/dl/vc17_x86_md_debug.zip')
         else:
-            tools.get ('https://files.trilogic.fr/public/3b244e/dl/vc17_x86_mt_debug.zip')
+            tools.get ('https://files.trilogic.fr/public/06a3bd/dl/vc17_x86_mt_debug.zip')
 
 #
 # Dektec Conan package.
 #
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
-    version = "1807.0"
+    version = "1907.1"
     settings = "os", "arch_build", "compiler", "build_type"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"
@@ -48,15 +48,15 @@ class DektecDtapiConan (ConanFile):
 
     def source (self):
         if self.settings.os == "Linux":
-            package = 'LinuxSDK_v2018.07.0.tar.gz'
-            tools.get ('https://files.trilogic.fr/public/dektec-linux/dl/' + package)
+            package = 'LinuxSDK_v2019.07.1.tar.gz'
+            tools.get ('https://files.trilogic.fr/public/6bac4f/dl/' + package)
 
     def build (self):
         if self.settings.os == "Linux":
             if self.settings.arch_build == 'x86_64':
-                self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC4.4/DTAPI64.o')
+                self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC5.1_CXX11_ABI1/DTAPI64.o')
             if self.settings.arch_build =='x86':
-                self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC4.4/DTAPI.o')
+                self.run ('ar cru libdtapi.a LinuxSDK/DTAPI/Lib/GCC5.1_CXX11_ABI1/DTAPI.o')
         elif self.settings.os == "Windows" and self.settings.compiler == "Visual Studio":
             # Do some check againt static runtime to inform user.
             if self.settings.compiler.version != 15:
@@ -99,6 +99,7 @@ class DektecDtapiConan (ConanFile):
                     self.cpp_info.debug.libs = ["DTAPIMTd"]
                     self.cpp_info.release.libs = ["DTAPIMT"]
         else:
+            self.cpp_info.defines = [ "_GLIBCXX_USE_CXX11_ABI=1" ]
             self.cpp_info.libs = tools.collect_libs (self)
             self.cpp_info.libs.append ('pthread')
             self.cpp_info.libs.append ('dl')
