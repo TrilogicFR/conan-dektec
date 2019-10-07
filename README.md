@@ -18,7 +18,7 @@ $ conan install dektec-dtapi/1907.1@trilogic/stable
 ### From a conanfile.py
 ```python
 def build_requirements (self)
-    self.requires("dektec-dtapi/1807.0@trilogic/stable")
+    self.requires("dektec-dtapi/1907.1@trilogic/stable")
 ```
 
 ### From a conanfile.txt
