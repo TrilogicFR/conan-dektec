@@ -5,13 +5,13 @@ This repository contains a conan package recipe allowing to easily link with Dek
 # Downloads
   The complete installers which has been used to build this package can be downloaded at the following urls :
 
-* For Linux   : https://files.trilogic.fr/public/dektec-linux/dl/LinuxSDK_v2018.07.0.tar.gz
-* For Windows : https://files.trilogic.fr/public/dektec-windows/dl/WinSDK_v2018.07.0.zip
+* For Linux   : https://files.trilogic.fr/public/6bac4f/dl/LinuxSDK_v2019.07.1.tar.gz
+* For Windows : https://files.trilogic.fr/public/f0931f/dl/WinSDK_v2019.07.1.zip
 
 # Usage
 
 ## Basic setup
-$ conan install dektec-dtapi/1807.0@trilogic/stable
+$ conan install dektec-dtapi/1907.1@trilogic/stable
 
 ## Project setup
 
@@ -24,5 +24,5 @@ def build_requirements (self)
 ### From a conanfile.txt
 ```python
 [build_requires]
-dektec-dtapi/1807.0@trilogic/stable
+dektec-dtapi/1907.1@trilogic/stable
 ```
