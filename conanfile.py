@@ -37,7 +37,7 @@ def download_x86_winsdk (self):
 #
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
-    version = "1911"
+    version = "1911-beta"
     settings = "os", "arch_build", "compiler", "build_type"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"
