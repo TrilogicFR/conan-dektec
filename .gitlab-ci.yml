@@ -30,7 +30,7 @@ deploy:linux:
   only:
         - tags
   after_script:
-        - conan upload "dektec-dtapi/$CI_COMMIT_TAG@trilogic/stable" --all -r trilogic
+        - conan upload "dektec-dtapi/$CI_COMMIT_TAG@trilogic/stable" --all --force -r trilogic
 
 deploy:windows:
   extends: .build
@@ -39,4 +39,4 @@ deploy:windows:
   only:
         - tags
   after_script:
-        - conan upload "dektec-dtapi/$env:CI_COMMIT_TAG@trilogic/stable" --all -r trilogic
+        - conan upload "dektec-dtapi/$env:CI_COMMIT_TAG@trilogic/stable" --all --force -r trilogic
