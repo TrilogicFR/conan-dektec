@@ -5,7 +5,7 @@ This repository contains a conan package recipe allowing to easily link with Dek
 # Downloads
   The complete installers which has been used to build this package can be downloaded at the following urls :
 
-* For Windows : https://files.trilogic.fr/public/f0931f/dl/WinSDK_v2020.01.0.zip
+* For Windows : https://files.trilogic.fr/public/7927e8/dl/WinSDK_v2020.01.0.zip
 
 # Usage
 
