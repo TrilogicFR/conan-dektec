@@ -1,6 +1,5 @@
 from conans import ConanFile, tools
 from conans.errors import ConanException
-import os
 
 #
 # Winsdk 64-bits.
@@ -70,7 +69,7 @@ class DektecDtapiConan (ConanFile):
             else:
                 download_x86_winsdk (self)
         else:
-          raise ConanException ("Unsupported os/arch_build/compiler !")
+            raise ConanException ("Unsupported os/arch_build/compiler !")
 
     def package (self):
         if self.settings.os == "Windows":
