@@ -37,7 +37,7 @@ def download_x86_winsdk (self):
 #
 class DektecDtapiConan (ConanFile):
     name = "dektec-dtapi"
-    version = "2001.0"
+    version = "2003.0"
     settings = "os", "arch_build", "compiler", "build_type"
     description = "Dektec DTAPI"
     url = "http://www.dektec.com"
@@ -48,8 +48,8 @@ class DektecDtapiConan (ConanFile):
 
     def source (self):
         if self.settings.os == "Linux":
-            package = 'LinuxSDK_v2020.01.0.tar.gz'
-            tools.get ('https://files.trilogic.fr/public/1d809d/dl/' + package)
+            package = 'LinuxSDK_v2020.03.0.tar.gz'
+            tools.get ('https://files.trilogic.fr/public/032355/dl/' + package)
 
     def build (self):
         if self.settings.os == "Linux":
